@@ -84,6 +84,13 @@
       "metadata": {
         "description": "Name of the database to be created."
       }
+    },
+    "hasuraSecret": {
+        "type": "string",
+        "defaultValue": null,
+        "metadata": {
+            "description": "The secret key for the console."
+        }
     }
   },
   "variables": {
@@ -97,7 +104,8 @@
     "firewallRuleName": "allow-all-azure-firewall-rule",
     "containerGroupName": "[concat(parameters('name'), '-container-group')]",
     "containerName": "hasura-graphql-engine",
-    "containerImage": "hasura/graphql-engine:v1.3.0-beta.1"
+    "containerImage": "hasura/graphql-engine:v1.2.2",
+    "hasuraSecret": "[parameters('hasuraSecret')]"
   },
   "resources": [
     {
@@ -182,7 +190,8 @@
                 "--server-port",
                 "80",
                 "--enable-console",
-                "--dev-mode"
+                "--admin-secret",
+                "[variables('hasuraSecret')]"
               ],
               "resources": {
                 "requests": {
