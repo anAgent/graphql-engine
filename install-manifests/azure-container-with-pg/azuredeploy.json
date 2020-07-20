@@ -91,6 +91,31 @@
         "metadata": {
             "description": "The secret key for the console."
         }
+    },
+    "hasuraJwtWebHook": {
+        "type": "string",
+        "defaultValue": null,
+        "metadata": {
+            "description": "Configure Hasura to use the Auth Hook to validate the JWT Token"
+        }
+    },
+    "hasuraJwtWebHookMode": {
+        "type": "string",
+        "defaultValue": "GET",
+        "allowedValues": [
+          "GET",
+          "POST"
+        ],
+        "metadata": {
+            "description": "You can configure Hasura to send either a GET or a POST request to your auth webhook."
+        }
+    },
+    "corsDomain": {
+        "type": "string",
+        "defaultValue": null,
+        "metadata": {
+            "description": "CSV of list of domains, incuding scheme (http/https) and port, to allow for CORS. Wildcard domains are allowed."
+        }
     }
   },
   "variables": {
@@ -105,7 +130,10 @@
     "containerGroupName": "[concat(parameters('name'), '-container-group')]",
     "containerName": "hasura-graphql-engine",
     "containerImage": "hasura/graphql-engine:v1.2.2",
-    "hasuraSecret": "[parameters('hasuraSecret')]"
+    "hasuraSecret": "[parameters('hasuraSecret')]",
+    "hasuraJwtWebHook": "[parameters('hasuraJwtWebHook')]",
+    "hasuraJwtWebHookMode": "[parameters('hasuraJwtWebHookMode')]",
+    "corsDomain": "[parameters('corsDomain')]"
   },
   "resources": [
     {
@@ -191,7 +219,13 @@
                 "80",
                 "--enable-console",
                 "--admin-secret",
-                "[variables('hasuraSecret')]"
+                "[variables('hasuraSecret')]",
+                "--auth-hook",
+                "[variables('hasuraJwtWebHook')]",
+                "--auth-hook-mode",
+                "[variables('hasuraJwtWebHookMode')]",
+                "--cors-domain",
+                "[variables('corsDomain')]"
               ],
               "resources": {
                 "requests": {
