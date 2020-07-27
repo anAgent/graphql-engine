@@ -13,8 +13,9 @@
     },
     "postgresVersion": {
       "type": "string",
-      "defaultValue": "10",
+      "defaultValue": "11",
       "allowedValues": [
+        "11",
         "10",
         "9.6",
         "9.5"
@@ -129,7 +130,7 @@
     "firewallRuleName": "allow-all-azure-firewall-rule",
     "containerGroupName": "[concat(parameters('name'), '-container-group')]",
     "containerName": "hasura-graphql-engine",
-    "containerImage": "hasura/graphql-engine:v1.2.2",
+    "containerImage": "hasura/graphql-engine:v1.3.0",
     "hasuraSecret": "[parameters('hasuraSecret')]",
     "hasuraJwtWebHook": "[parameters('hasuraJwtWebHook')]",
     "hasuraJwtWebHookMode": "[parameters('hasuraJwtWebHookMode')]",
